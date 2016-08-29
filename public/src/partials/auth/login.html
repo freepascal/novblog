@@ -1,0 +1,19 @@
+<div class="container" ng-controller="AuthController">
+    {{ user.name }}
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" ng-model="email" value="" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" ng-model="password" value="" class="form-control">
+        </div>
+        <div class="form-group">
+            <button type="button" ng-click="login()" class="btn btn-primary form-control">Login</button>
+        </div>
+        <div class="form-group">
+            <div class="text-center">Forgot your password?</div>
+        </div>
+    </div>
+</div>

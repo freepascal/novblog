@@ -38,8 +38,11 @@ class AuthController extends Controller
     **/
     public function user(Request $req)
     {
-        $jwt = $req->header('jwt');
-
+        try {
+            list($jwtType, $jwt) = explode(' ', $req->header('Authorization'));
+        } catch(Exception $e) {
+            return response()->json(['error' => 'Can not parse Authorization header'], 400);
+        }
         if ($jwt) {
             try {
                 $credentials = JWT::decode($jwt, Config::get('app.jwt-secret-key'), ['HS256']);

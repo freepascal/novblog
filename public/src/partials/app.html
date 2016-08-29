@@ -1,25 +1,81 @@
-<div class="container">
+<div class="container" ng-controller="EntryCollection">
     <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Khang Tran's land</a>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarlist">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="">Khang Tran's blog</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarlist">
+                <ul class="nav navbar-nav pull-right">
+                    <li ng-if="isAuthenticated()" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">{{ user.name }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
+                        </ul>
+                    </li>
+                    <li ng-if="!isAuthenticated()"><a href="javascript:void(0)" ng-click="logout()" data-toggle="modal" data-target="#m_login">Login</a></li>
+                </ul>
+            </div>
         </div>
-        <ul class="nav navbar-nav pull-right">
-          <li><a href="#">Page 2</a></li>
-          <li><a href="#">Page 3</a></li>
-        </ul>
-      </div>
     </nav>
-</div>
 
-<div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-8">
-            page_content::main()
-        </div>
+        <ul class="list-group">
+            <li ng-if="entries.length > 1" ng-repeat="e in entries" class="list-group-item panel panel-info col-xs-12 col-sm-4">
+                <div class="panel-heading h4"><a ui-sref="appentry({slug: e.id})"><span ng-bind-html="e.title"></span></a></div>
+                <div class="panel-body"><span ng-bind-html="(e.body |limitTo: 200) + '...'"></span></div>
+            </li>
+            <li ng-if="entries.length == 1" ng-repeat="e in entries" class="list-group-item panel panel-info col-xs-12 col-sm-8">
+                <div class="panel-heading h4"><a ui-sref="appentry({slug: e.id})"><span ng-bind-html="e.title"></span></a></div>
+                <div class="panel-body"><span ng-bind-html="(e.body |limitTo: 200) + '...'"></span></div>
+            </li>
+        </ul>
 
         <div class="col-xs-12 col-sm-4">
-            page_content::sidebar()
+            <div class="panel panel-info">
+                <div class="panel-heading">Tags</div>
+                <div class="panel-body">
+                    <span ng-repeat="tag in tags">
+                        <a ui-sref="apptag({slug: tag.tag})">{{ tag.tag }}</a>({{ tag.total}})
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- dialog modal -->
+    <div id="m_login" class="modal fade" role="dialog" ng-controller="AuthController">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="pull-right" href="javascript:void(0)" data-dismiss="modal">X</a>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" ng-model="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Password</label>
+                        <input type="password" class="form-control" id="pwd" ng-model="password">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" ng-click="login()">Login</button>
+                    <div>
+                    <div class="form-group">
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">Or login via</div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-info" ng-click="authenticate('google')">Google</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

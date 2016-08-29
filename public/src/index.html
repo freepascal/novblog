@@ -1,26 +1,22 @@
 <!DOCTYPE html>
 <html ng-app="novblog">
 <head>
+    <title>{{ title }}</title>
     <base href="/">
     <meta charset="utf8">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.7/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.min.js"></script>
-    <script src="vendor/satellizer.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="vendor/lib.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.8/angular-sanitize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 </head>
 <body>
-    <div ng-controller="AuthController" ng-if="is_loggedin">
-        <p>Hello {{ user.name }}</p>
-    </div>
-    <div ng-controller="AuthController" ng-if="!is_loggedin">
-        Login/Register now!
-    </div>
-
     <div ui-view></div>
     <script src="src/js/novblog.js"></script>
     <script src="src/js/controllers/auth.js"></script>
-    <script src="src/js/controllers/user.js"></script>
+    <script src="src/js/controllers/tag.js"></script>
+    <script src="src/js/controllers/entry.js"></script>
+    <script src="src/js/directives/title.js"></script>
 </body>
 </html>

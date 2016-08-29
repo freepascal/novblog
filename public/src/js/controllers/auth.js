@@ -1,21 +1,48 @@
 var AuthController = function($auth, $scope, $http) {
-    $scope.is_loggedin = function() {
+    $scope.isAuthenticated = function() {
         return $auth.isAuthenticated();
-    }
+    };
 
-    $scope.$watch(function() {
+    $scope.$watch(function($scope) {
         return $auth.isAuthenticated();
     }, function(val) {
-        if (val == true) {
+        if (true == val) {
+            $scope.user = {
+                name: 'Khang',
+                email: 'magicalmoon17@gmail.com'
+            };
             $http({
-                url: BACKEND_API + 'auth/user'
-            }).then(function(data) {
-                $scope.user = data.user;
-            }, function(data) {
-                alert(data.error);
+                url: 'api/auth/user',
+                method: 'POST'
+            }).then(function(res) {
+                $scope.user = res.data.user;
+            }, function(res) {
+                alert(angular.toJson(res.data));
             });
         }
     });
+
+    $scope.login = function() {
+        var credentials = {
+            email: $scope.email,
+            password: $scope.password
+        };
+
+        $auth
+            .login(credentials)
+            .then(function(res) {
+                $auth.setToken(res);
+                console.log(angular.toJson(res.data));
+            })
+            .catch(function(res) {
+                console.log(angular.toJson(res.data));
+            });
+    };
+
+    $scope.logout = function() {
+        if (!$auth.isAuthenticated());
+        $auth.logout();
+    };
 };
 
 angular
