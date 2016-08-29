@@ -1,0 +1,23 @@
+<div class="container" ng-controller="EntryShow">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8">
+            <div class="panel panel-info">
+                <div class="panel-heading h3">{{ entry.title }}</div>
+                <div class="panel-body"><span ng-bind-html="entry.body"></span></div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">Tags</div>
+                <div class="panel-body">
+                    <span ng-repeat="tag in tags">
+                        {{ tag.tag }}({{ tag.total}})
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

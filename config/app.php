@@ -179,7 +179,6 @@ return [
         Novblog\Providers\AuthServiceProvider::class,
         Novblog\Providers\EventServiceProvider::class,
         Novblog\Providers\RouteServiceProvider::class,
-
     ],
 
     /*
