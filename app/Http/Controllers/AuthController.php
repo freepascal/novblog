@@ -35,24 +35,33 @@ class AuthController extends Controller
 
     /**
      * return authenticated user
+     * return NULL if not authenticated
     **/
-    public function user(Request $req)
+    public function user(Request $req, $nullOnFail = false)
     {
         try {
             list($jwtType, $jwt) = explode(' ', $req->header('Authorization'));
-        } catch(Exception $e) {
+        } catch(\ErrorException $e) {
+            if ($nullOnFail)
+                return null;
             return response()->json(['error' => 'Can not parse Authorization header'], 400);
         }
         if ($jwt) {
             try {
                 $credentials = JWT::decode($jwt, Config::get('app.jwt-secret-key'), ['HS256']);
             } catch(ExpiredException $e) {
+                if ($nullOnFail)
+                    return $nullOnFail;
                 return response()->json(['error' => 'jwt_expired'], 400);
-            } catch(Exception $e) {
+            } catch(\Exception $e) {
+                if ($nullOnFail)
+                    return $nullOnFail;
                 return response()->json(['error' => 'An error while decoding jwt'], 400);
             }
 
             $user = User::where('id', '=', get_object_vars($credentials)['sub'])->first();
+            if ($nullOnFail)
+                return $user;
             return response()->json(['user' => $user], 200);
         }
         return response()->json(['error' => 'No jwt attached'], 401);

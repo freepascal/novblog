@@ -1,9 +1,11 @@
 var TagCollection = function($scope, $http) {
+    $scope.tags = [];
     $http({
         url: 'api/tag',
         method: 'GET'
     }).then(function(res) {
         $scope.tags = res.data.tags;
+        console.log(angular.toJson($scope.tags));
     }, function(res) {
 
     });
@@ -11,13 +13,13 @@ var TagCollection = function($scope, $http) {
 
 var TagShow = function($scope, $http, $stateParams, $controller) {
     angular.extend(this, $controller('AuthController', {$scope: $scope}));
-    angular.extend(this, $controller('EntryCollection', {$scope: $scope}));
+    angular.extend(this, $controller('TagCollection', {$scope: $scope}));
+    $scope.entries = [];
     $http({
         url: 'api/tag/' + $stateParams.slug,
         method: 'GET'
     }).then(function(res) {
         $scope.entries = res.data.entries;
-        alert(angular.toJson($scope.entries));
     }, function(res) {
 
     });

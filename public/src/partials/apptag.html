@@ -1,5 +1,8 @@
 <div class="container" ng-controller="TagShow">
-    <nav class="navbar navbar-default">
-    </nav>
-    <div class="row"></div>
+    <div ng-include="'appnavbar'"></div>
+
+    <div class="row">
+        <div ng-include="'entrycollection'" with-data="{style_one_cols: 'col-xs-12 col-md-8', style_two_cols: 'col-xs-12 col-md-4'}"></div>
+        <div ng-include="'tagcollection'" with-data="{style: 'col-xs-12 col-md-4'}"></div>
+    </div>
 </div>

@@ -5,6 +5,18 @@ var novblog = angular.module('novblog', [
 ]);
 
 novblog.config(function($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
+    /* helper auth functions */
+    var requireLoggedIn = function($q, $auth, $path) {
+        var deferred = $q.defer();
+        if ($auth.isAuthenticated()) {
+          deferred.resolve();
+        } else {
+            console.log('redirect to /login');
+          $location.path('/login');
+        }
+        return deferred.promise;
+    };
+
     $urlRouterProvider.otherwise('app');
     $stateProvider
         .state('app', {
@@ -31,10 +43,21 @@ novblog.config(function($stateProvider, $urlRouterProvider, $locationProvider, $
                 pageTitle: 'Novblog'
             }
         })
+        .state('newentry', {
+            url: '/new',
+            controller: 'EntryStore',
+            templateUrl: '/src/partials/newentry.html',
+            data: {
+                pageTitle: 'Create a new entry'
+            }
+        })
         .state('login', {
             url: '/login',
             controller: 'AuthController',
             templateUrl: '/src/partials/auth/login.html',
+            params: {
+                next: 'app' // redirect to state app if logged in successful
+            },
             data: {
                 pageTitle: 'Login'
             }

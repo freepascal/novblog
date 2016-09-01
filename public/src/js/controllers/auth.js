@@ -1,4 +1,4 @@
-var AuthController = function($auth, $scope, $http) {
+var AuthController = function($auth, $scope, $http, $state, $stateParams) {
     $scope.isAuthenticated = function() {
         return $auth.isAuthenticated();
     };
@@ -33,6 +33,10 @@ var AuthController = function($auth, $scope, $http) {
             .then(function(res) {
                 $auth.setToken(res);
                 console.log(angular.toJson(res.data));
+                if ($stateParams.next) {
+                    // logged in, redirect to next state
+                    $state.go($stateParams.next.name);
+                }
             })
             .catch(function(res) {
                 console.log(angular.toJson(res.data));

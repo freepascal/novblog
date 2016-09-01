@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Novblog\Tag;
 use Novblog\Entry;
 use DB;
+use Log;
 
 class TagController extends Controller
 {
@@ -19,6 +20,7 @@ class TagController extends Controller
         return response()->json(['tags' => $tags]);
     }
 
+/*
     public function show($tag)
     {
         $entries = Entry::with('author', 'tags')
@@ -30,5 +32,20 @@ class TagController extends Controller
             return response()->json(['entries' => $entries]);
         }
         return response()->json(['error' => 'Page not found'], 404);
+    }
+*/
+
+    public function show($tag)
+    {
+        $entries = Entry::with('author', 'tags')->get();
+        $result = array();
+        foreach($entries as $entry) {
+            foreach($entry->tags as $_tag) {
+                if (strcmp($_tag->tag, $tag) == 0) {
+                    array_push($result, $entry);
+                }
+            }
+        }
+        return ['entries' => $result];
     }
 }
