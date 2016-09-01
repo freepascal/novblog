@@ -68,11 +68,11 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', 'ec2-54-243-190-37.compute-1.amazonaws.com'),
+            'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'dedngpts80jj8a'),
-            'username' => env('DB_USERNAME', 'wemscuvuedltze'),
-            'password' => env('DB_PASSWORD', 'fYwLogARTqmPe4Rh76SI0LMPXU'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
@@ -85,7 +85,7 @@ return [
     |--------------------------------------------------------------------------
     | Migration Repository Table
     |--------------------------------------------------------------------------
-    |
+    |s
     | This table keeps track of all the migrations that have already run for
     | your application. Using this information, we can determine which of
     | the migrations on disk haven't actually been run in the database.

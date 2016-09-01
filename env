@@ -1,7 +1,7 @@
 APP_ENV=production
 APP_KEY=base64:ma9jc51oCrmDlyGshCJh2WaB0zu50cJ/3YQbM78vlPQ=
 APP_DEBUG=true
-APP_LOG_LEVEL=errorlog
+APP_LOG_LEVEL=debug
 APP_URL=http://mysticphoniex.herokuapp.com
 
 DB_CONNECTION=pgsql
