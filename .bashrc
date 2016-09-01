@@ -1,15 +1,15 @@
-APP_ENV=production
-APP_KEY=base64:ma9jc51oCrmDlyGshCJh2WaB0zu50cJ/3YQbM78vlPQ=
-APP_DEBUG=true
-APP_LOG_LEVEL=errorlog
-APP_URL=http://mysticphoniex.herokuapp.com
+export APP_ENV=production
+export APP_KEY=base64:ma9jc51oCrmDlyGshCJh2WaB0zu50cJ/3YQbM78vlPQ=
+export APP_DEBUG=true
+export APP_LOG_LEVEL=errorlog
+export APP_URL=http://mysticphoniex.herokuapp.com
 
-DB_CONNECTION=pgsql
-DB_HOST=ec2-54-243-190-37.compute-1.amazonaws.com
-DB_PORT=5432
-DB_DATABASE=dedngpts80jj8a
-DB_USERNAME=wemscuvuedltze
-DB_PASSWORD=fYwLogARTqmPe4Rh76SI0LMPXU
+export DB_CONNECTION=pgsql
+export DB_HOST=ec2-54-243-190-37.compute-1.amazonaws.com
+export DB_PORT=5432
+export DB_DATABASE=dedngpts80jj8a
+export DB_USERNAME=wemscuvuedltze
+export DB_PASSWORD=fYwLogARTqmPe4Rh76SI0LMPXU
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
