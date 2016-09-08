@@ -10,4 +10,6 @@ class Tag extends Model
     {
         return $this->belongsToMany('Novblog\Entry', 'entries_tags', 'tag', 'entry');
     }
+
+    protected $fillable = ['tag'];
 }

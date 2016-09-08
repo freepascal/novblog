@@ -1,19 +1,36 @@
 <div class="container" ng-controller="AuthController">
-    {{ user.name }}
-    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+    <form name="form" class="form col-xs-12 col-sm-6 col-sm-offset-3">
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" ng-model="email" value="" class="form-control">
+            <input name="email" type="email" ng-model="email" value="" class="form-control"
+                ng-minlength="4"
+                ng-maxlength="255"
+                ng-email
+                required>
+            <div ng-messages="form.email.$error" ng-if="form.email.$touched" role="alert">
+                <p class="alert alert-danger" ng-message="minlength">Min length is 4</p>
+                <p class="alert alert-danger" ng-message="maxlength">Max length is 255</p>
+                <p class="alert alert-danger" ng-message="email">Must be a valid email<p>
+                <p class="alert alert-danger" ng-message="required">Email is required.</p>
+            </div>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" ng-model="password" value="" class="form-control">
+            <input type="password" ng-model="password" value="" class="form-control"
+                ng-minlength="8"
+                ng-maxlength="80"
+                required>
+            <div ng-messages="form.password.$error" ng-if="form.password.$touched" role="alert">
+                <p class="alert alert-danger" ng-messages="minlength">Min length is 8<p>
+                <p class="alert alert-danger" ng-messages="maxlength">Max length is 80</p>
+                <p class="alert alert-danger" ng-messages="required">Password is required</p>
+            </div>
         </div>
         <div class="form-group">
-            <button type="button" ng-click="login()" class="btn btn-primary form-control">Login</button>
+            <button ng-disabled="form.$invalid" type="button" ng-click="login()" class="btn btn-primary form-control">Login</button>
         </div>
         <div class="form-group">
             <div class="text-center">Forgot your password?</div>
         </div>
-    </div>
+    </form>
 </div>

@@ -1,4 +1,4 @@
-var AuthController = function($auth, $scope, $http, $state, $stateParams) {
+var AuthController = function($auth, $scope, $http, $warning, $state, $stateParams) {
     $scope.isAuthenticated = function() {
         return $auth.isAuthenticated();
     };
@@ -17,7 +17,7 @@ var AuthController = function($auth, $scope, $http, $state, $stateParams) {
             }).then(function(res) {
                 $scope.user = res.data.user;
             }, function(res) {
-                alert(angular.toJson(res.data));
+                $warning(res);
             });
         }
     });
@@ -39,7 +39,7 @@ var AuthController = function($auth, $scope, $http, $state, $stateParams) {
                 }
             })
             .catch(function(res) {
-                console.log(angular.toJson(res.data));
+                $warning(res);
             });
     };
 

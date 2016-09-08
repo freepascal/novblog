@@ -1,22 +1,12 @@
 var novblog = angular.module('novblog', [
     'ui.router',
     'satellizer',
-    'ngSanitize'
+    'ngSanitize',
+    'ngMessages',
+    'hljs'
 ]);
 
 novblog.config(function($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
-    /* helper auth functions */
-    var requireLoggedIn = function($q, $auth, $path) {
-        var deferred = $q.defer();
-        if ($auth.isAuthenticated()) {
-          deferred.resolve();
-        } else {
-            console.log('redirect to /login');
-          $location.path('/login');
-        }
-        return deferred.promise;
-    };
-
     $urlRouterProvider.otherwise('app');
     $stateProvider
         .state('app', {
@@ -48,7 +38,7 @@ novblog.config(function($stateProvider, $urlRouterProvider, $locationProvider, $
             controller: 'EntryStore',
             templateUrl: '/src/partials/newentry.html',
             data: {
-                pageTitle: 'Create a new entry'
+                pageTitle: 'Create new entry'
             }
         })
         .state('login', {
@@ -61,6 +51,14 @@ novblog.config(function($stateProvider, $urlRouterProvider, $locationProvider, $
             data: {
                 pageTitle: 'Login'
             }
+        })
+        .state('test', {
+            url: '/wetest',
+            controller: 'TestController',
+            templateUrl: '/src/partials/test.html',
+            data: {
+                pageTitle: 'Test'
+            }
         });
 
     $locationProvider.html5Mode(true);
@@ -70,3 +68,5 @@ novblog.config(function($stateProvider, $urlRouterProvider, $locationProvider, $
     $authProvider.tokenName = 'jwt';
     $authProvider.tokenPrefix = '';
 });
+
+toastr.options.closeButton = true;

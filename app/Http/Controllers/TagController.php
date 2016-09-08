@@ -12,10 +12,10 @@ class TagController extends Controller
 {
     public function index()
     {
-        $query = "SELECT count(entries_tags.entry) as total, tags.tag "
+        $query = "SELECT count(entries_tags.entry) as total, tags.tag, tags.id "
                 ."FROM entries_tags, tags "
                 ."WHERE entries_tags.tag = tags.id "
-                ."GROUP BY entries_tags.tag, tags.tag";
+                ."GROUP BY entries_tags.tag, tags.tag, tags.id";
         $tags = DB::select(DB::raw($query));
         return response()->json(['tags' => $tags]);
     }

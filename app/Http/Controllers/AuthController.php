@@ -18,7 +18,7 @@ class AuthController extends Controller
         $payload = array(
             'sub'   => $user->id,
             'iat'   => time(),
-            'exp'   => time() + 5*60
+            'exp'   => time() + 60*60
         );
         return JWT::encode($payload, Config::get('app.jwt-secret-key'));
     }
@@ -71,7 +71,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($req->all(), array(
             'name'  => 'required|unique:users|min:4|max:25',
-            'email' => 'required|email|unique:users|max:255',
+            'email' => 'required|email|unique:users|min:4|max:255',
             'password'  => 'required|min:8|max:80'
         ));
 

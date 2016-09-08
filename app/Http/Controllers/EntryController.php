@@ -4,7 +4,9 @@ namespace Novblog\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Novblog\Entry;
+use Novblog\Tag;
 use Validator;
+use Log;
 
 class EntryController extends AuthController
 {
@@ -39,11 +41,21 @@ class EntryController extends AuthController
         }
 
         $entry = new Entry;
+
         $entry->title = $req->input('title');
         $entry->body = $req->input('body');
         $entry->author = $user->id;
 
-        return response()->json(['success' => $entry->save()], 200);
+        if ($id = $entry->save()) {
+            // retrieve or insert new tags
+            $tags = $req->input('tags');
+            foreach($tags as $tag) {
+                $entry->tags()->save(Tag::firstOrCreate(['tag' => $tag]));
+            }
+            return response()->json(['success' => sprintf("Entry with id %d created", $id)], 200);
+        }
+
+        return response()->json(['error' => 'An error occurs while saving entry'], 500);
     }
 
     public function destroy($id, Request $req)
