@@ -2,7 +2,11 @@
     <div ng-include="'appnavbar'"></div>
 
     <div class="row">
-        <div ng-include="'entrycollection'" with-data="{style_one_cols: 'col-xs-12 col-md-8', style_two_cols: 'col-xs-12 col-md-4'}"></div>
-        <div ng-include="'tagcollection'" with-data="{style: 'col-xs-12 col-md-4'}"></div>
+        <div class="col-xs-12 col-sm-8">
+            <div ng-include="'entrycollection'"></div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div ng-include="'tagcollection'"></div>
+        </div>
     </div>
 </div>

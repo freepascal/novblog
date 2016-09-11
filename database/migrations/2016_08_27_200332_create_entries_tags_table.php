@@ -10,8 +10,8 @@ class CreateEntriesTagsTable extends Migration
     {
         Schema::create('entries_tags', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('entry')->references('id')->on('entries');
-            $table->integer('tag')->references('id')->on('tags');
+            $table->integer('entry')->references('id')->on('entries')->onDelete('cascade');
+            $table->integer('tag')->references('id')->on('tags')->onDelete('cascade');
             $table->timestamps();
         });
     }

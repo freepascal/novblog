@@ -1,0 +1,35 @@
+<div class="container" ng-controller="EntryShow">
+    <div ng-include="'appnavbar'"></div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-8">
+            <div class="panel panel-default" style="border:none;">
+                <div class="panel-heading" style="border:none;">
+                    <h3 ng-bind-html="entry.title"></h3>
+                    <ul class="list-inline"><span ng-if="entry.tags.length > 0">Tags:</span>
+                        <li ng-repeat="tag in entry.tags">
+                            <a ui-sref="apptag({slug: tag.tag})"><i ng-bind="tag.tag"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-body" style="border:none;">
+                    <span compile="entry.body"></span><br>
+                    <span class="pull-right">
+                        Posted by <b>{{ entry.author.name }}</b>
+                        <span ng-if="entry.created_at">on <b>{{ entry.created_at }}</b></span>
+                        <!--
+                        <span ng-if="{entry.create_at && (entry.create_at != entry.updated_at)}">, last modified on <b>{{ entry.updated_at }}</b></span>
+                        -->
+                    </span>
+                </div>
+                <div class="panel-footer" style="border:none;" ng-if="isAuthenticated()">
+                    <button type="button" class="btn btn-default" ng-click="edit()">Edit</button>
+                    <button type="button" class="btn btn-default" ng-click="delete(entry.id)">Delete</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div ng-include="'tagcollection'"></div>
+        </div>
+    </div>
+</div>

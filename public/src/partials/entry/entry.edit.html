@@ -1,11 +1,12 @@
-<div class="container" ng-controller="EntryStore">
+<div class="container">
     <div ng-include="'appnavbar'"></div>
     <div class="row">
         <form name="form" class="col-xs-12 col-sm-6 form-horizontal">
             <div class="form-group">
                 <input type="text" name="title" ng-model="entry.title" id="title" class="form-control" placeholder="Title"
+                    value="{{ entry.title }}"
                     ng-minlength="10"
-                    required>
+                    ng-required>
                 <div ng-messages="form.title.$error" ng-if="form.title.$touched">
                     <p class="alert alert-warning" ng-message="minlength">The title must be 10 characters at least</p>
                     <p class="alert alert-warning" ng-message="required">Title is required</p>
@@ -13,6 +14,7 @@
             </div>
             <div class="form-group">
                 <textarea name="body" rows="15" class="form-control" ng-model="entry.body" id="body" placeholder="Body (This is HTML editor)">
+                    {{ entry.body }}
                 </textarea>
             </div>
             <div class="form-group">
@@ -28,26 +30,16 @@
                 </label>
             </div>
             <div class="form-group">
-                <button ng-disabled="form.$invalid" type="button" class="btn btn-primary form-control" ng-click="entry.store(entry)">Create</button>
+                <button ng-disabled="form.$invalid" type="button" class="btn btn-primary form-control" ng-click="entry.store(entry)">{{ inEditMode? 'Update': 'Create' }}</button>
             </div>
         </form>
         <div class="col-xs-12 col-sm-6">
-            <div class="panel panel-default">
+            <div class="panel panel-default" style="min-height:200px;">
                 <div class="panel-heading">
                     <h3 ng-bind-html="entry.title"></h3>
                 </div>
                 <div class="panel-body">
                     <div compile="entry.body"></div>
-                </div>
-                <div class="panel-footer">
-                    <div hljs hljs-language="java">
-    import java.util.*;
-    public class Main {
-        public static void main(String[] args) {
-            System.out.printf("hello world\n");
-        }
-    }
-                    </div>
                 </div>
             </div>
         </div>

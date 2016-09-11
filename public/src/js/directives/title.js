@@ -4,7 +4,10 @@ var title = ['$rootScope', '$timeout', '$auth', function($rootScope, $timeout, $
         link: function(scope, elem) {
             var listener = function(event, state) {
                 $timeout(function() {
-                    $rootScope.title = state.data.pageTitle? state.data.pageTitle: 'Novblog';
+                    console.log('setTitle');
+                    if (state.data) {
+                        $rootScope.title = (state.data.pageTitle)? state.data.pageTitle: 'Novblog';
+                    }
                 });
             };
             $rootScope.$on('$stateChangeSuccess', listener);

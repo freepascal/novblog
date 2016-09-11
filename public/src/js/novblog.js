@@ -18,27 +18,35 @@ novblog.config(function($stateProvider, $urlRouterProvider, $locationProvider, $
             }
         })
         .state('apptag', {
-            url: '/t/:slug',
+            url: '/tag/:slug',
             controller: 'TagShow',
             templateUrl: '/src/partials/apptag.html',
             data: {
                 pageTitle: 'Novblog'
             }
         })
-        .state('appentry', {
-            url: '/e/:slug',
+        .state('entryShow', {
+            url: '/entry/:slug',
             controller: 'EntryShow',
-            templateUrl: '/src/partials/appentry.html',
+            templateUrl: '/src/partials/entry/entry.show.html',
             data: {
                 pageTitle: 'Novblog'
             }
         })
-        .state('newentry', {
-            url: '/new',
-            controller: 'EntryStore',
-            templateUrl: '/src/partials/newentry.html',
-            data: {
-                pageTitle: 'Create new entry'
+        .state('entryEdit', {
+            url: '/newOrEdit',
+            controller: 'EntryEdit',
+            templateUrl: '/src/partials/entry/entry.edit.html',
+            params: {
+                entry: {}
+            },
+            // note that onEnter called before event $stateChangeSuccess triggered
+            onEnter: function($rootScope, $stateParams) {
+                if ($stateParams.entry.title) {
+                    $rootScope.title = 'Update: ' + $stateParams.entry.title;
+                } else {
+                    $rootScope.title = 'Create new entry';
+                }
             }
         })
         .state('login', {

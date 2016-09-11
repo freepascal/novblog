@@ -32,7 +32,10 @@ var AuthController = function($auth, $scope, $http, $warning, $state, $statePara
             .login(credentials)
             .then(function(res) {
                 $auth.setToken(res);
-                console.log(angular.toJson(res.data));
+                var loginModal = angular.element('#m_login');
+                if (loginModal.hasClass('in')) {
+                    loginModal.modal('toggle');
+                }
                 if ($stateParams.next) {
                     // logged in, redirect to next state
                     $state.go($stateParams.next.name);

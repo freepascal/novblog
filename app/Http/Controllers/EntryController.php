@@ -7,6 +7,7 @@ use Novblog\Entry;
 use Novblog\Tag;
 use Validator;
 use Log;
+use DB;
 
 class EntryController extends AuthController
 {
@@ -17,7 +18,7 @@ class EntryController extends AuthController
 
     public function show($slug)
     {
-        $entry = Entry::with('tags')->where('id', '=', $slug)->first();
+        $entry = Entry::with(['author', 'tags'])->where('id', '=', $slug)->first();
         if ($entry) {
             return response()->json(['entry' => $entry]);
         }
@@ -58,13 +59,54 @@ class EntryController extends AuthController
         return response()->json(['error' => 'An error occurs while saving entry'], 500);
     }
 
+    public function update($id, Request $req)
+    {
+        $user = $this->user($req, $nullOnFail = true);
+        if (!$user) {
+            return response()->json(['error' => 'do_not_have_permission'], 403);
+        }
+        $entry = Entry::with(['author', 'tags'])->where('id', '=', $id)->first();
+        $entry->title = $req->input('title');
+        $entry->body = $req->input('body');
+        $entry->author = $user->id;
+
+        // $entry->tags are old tags
+        $old_tags_collection = $entry->tags->map(function($item) {
+            return $item->id;
+        });
+
+        // $new_tags_collection are new tags need to update
+        $new_tags_collection = collect();
+        foreach($req->input('tags') as $tag) {
+            // new tags will be insert into database
+            $new_tags_collection->push(Tag::firstOrCreate(['tag' => $tag]));
+        }
+
+        // we only need Id of tag
+        $new_tags_collection = $new_tags_collection->map(function($item) {
+            return $item->id;
+        });
+
+        foreach($new_tags_collection->diff($old_tags_collection)->toArray() as $tag_id) {
+            $entry->tags()->attach($tag_id);
+        }
+        
+        foreach($old_tags_collection->diff($new_tags_collection)->toArray() as $tag_id) {
+            $entry->tags()->detach($tag_id);
+        }
+
+        $entry->save();
+        return response()->json(['success' => sprintf("Entry with id %d updated", $id)], 200);
+    }
+
     public function destroy($id, Request $req)
     {
         $user = $this->user($req, $nullOnFail = true);
         if (!$user) {
             return response()->json(['error' => 'do_not_have_permission'], 403);
         }
-        Entry::destroy($id);
-        return response()->json(['success' => 'delete success']);
+        $entry = Entry::where('id', '=', $id)->first();
+        $entry->delete(); /* this function return NULL */
+        return response()->json(['success' => 'delete success'], 200);
     }
 }
