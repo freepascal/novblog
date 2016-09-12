@@ -26,7 +26,7 @@ novblog.config(function($stateProvider, $urlRouterProvider, $locationProvider, $
             }
         })
         .state('entryShow', {
-            url: '/entry/:slug',
+            url: '/:id/:slug',
             controller: 'EntryShow',
             templateUrl: '/src/partials/entry/entry.show.html',
             data: {

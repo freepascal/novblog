@@ -43,6 +43,7 @@ class TagController extends Controller
             foreach($entry->tags as $_tag) {
                 if (strcmp($_tag->tag, $tag) == 0) {
                     array_push($result, $entry);
+                    break;
                 }
             }
         }

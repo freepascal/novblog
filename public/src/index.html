@@ -29,6 +29,14 @@
     </p>
 
     <div ui-view></div>
+    <script type="text/ng-template" id="useful">
+        <div class="panel panel-default" style="border:none;">
+            <div class="panel panel-heading" style="border:none;"><span style="font-size:1.3em;">Useful</span></div>
+            <div class="panel panel-body">
+                Bạn có quyền sao chép không ghi nguồn, thương mại hóa và tự nhận mình là tác giả của tất cả bài viết (entries) ở trang này.
+            </div>
+        </div>
+    </script>
     <script type="text/ng-template" id="appnavbar">
         <nav class="navbar navbar-default" style="border:none;">
             <div class="container-fluid">
@@ -39,11 +47,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" ui-sref="app()">Khang Tran's blog</a>
+                    <a class="navbar-brand" ui-sref="app()">Neptune</a>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarlist">
                     <ul class="nav navbar-nav pull-right">
-                        <li ng-if="isAuthenticated()"><a href="javascript:void(0)" data-toggle="modal" data-target="#m_entrynew">New entry</a></li>
+                        <li ng-if="isAuthenticated()"><a ui-sref="entryEdit()">New entry</a></li>
                         <li ng-if="isAuthenticated()" class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)"><b><span ng-bind="user.name"></span></b></a>
                             <ul class="dropdown-menu">
@@ -120,7 +128,7 @@
     <script type="text/ng-template" id="entrycollection">
         <div class="panel panel-default" ng-repeat="e in entries" style="border:none;">
             <div class="panel-heading" style="border:none;">
-                <a ui-sref="entryShow({slug: e.id})">
+                <a ui-sref="entryShow({id: e.id, slug: e.slug})">
                     <span style="font-size:1.3em;" ng-bind="e.title"></span>
                 </a>
             </div>
@@ -128,18 +136,23 @@
                 <span ng-bind-html="(e.body |limitTo: 200) + '...'"></span>
             </div>
         </div>
+        <ul class="list-inline">
+            <li ng-repeat="page in page_last|lastPage">
+                <button type="button" ng-click="paginate(page)" class="btn btn-default btn-xs">
+                    {{ page }}
+                </button>
+            </li>
+        </ul>
     </script>
 
     <script src="src/js/novblog.js"></script>
-
     <script src="src/js/services/warning.js"></script>
-
     <script src="src/js/controllers/auth.js"></script>
     <script src="src/js/controllers/tag.js"></script>
     <script src="src/js/controllers/entry.js"></script>
-
     <script src="src/js/directives/title.js"></script>
     <script src="src/js/directives/withdata.js"></script>
     <script src="src/js/directives/compile.js"></script>
+    <script src="src/js/filters/filters.js"></script>
 </body>
 </html>

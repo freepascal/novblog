@@ -7,18 +7,17 @@ use Novblog\Entry;
 use Novblog\Tag;
 use Validator;
 use Log;
-use DB;
 
 class EntryController extends AuthController
 {
     public function index()
     {
-        return response()->json(['entries' => Entry::with('author')->with('tags')->get()]);
+        return response()->json(Entry::with(['author', 'tags'])->orderBy('id', 'desc')->paginate(5));
     }
 
-    public function show($slug)
+    public function show($id, $slug = null)
     {
-        $entry = Entry::with(['author', 'tags'])->where('id', '=', $slug)->first();
+        $entry = Entry::with(['author', 'tags'])->where(['id' => $id, 'slug' => $slug])->first();
         if ($entry) {
             return response()->json(['entry' => $entry]);
         }
@@ -42,11 +41,10 @@ class EntryController extends AuthController
         }
 
         $entry = new Entry;
-
         $entry->title = $req->input('title');
         $entry->body = $req->input('body');
         $entry->author = $user->id;
-
+        $entry->slug = str_slug($entry->title);
         if ($id = $entry->save()) {
             // retrieve or insert new tags
             $tags = $req->input('tags');
@@ -65,10 +63,12 @@ class EntryController extends AuthController
         if (!$user) {
             return response()->json(['error' => 'do_not_have_permission'], 403);
         }
+
         $entry = Entry::with(['author', 'tags'])->where('id', '=', $id)->first();
         $entry->title = $req->input('title');
         $entry->body = $req->input('body');
         $entry->author = $user->id;
+        $entry->slug = str_slug($entry->title);
 
         // $entry->tags are old tags
         $old_tags_collection = $entry->tags->map(function($item) {
@@ -90,7 +90,7 @@ class EntryController extends AuthController
         foreach($new_tags_collection->diff($old_tags_collection)->toArray() as $tag_id) {
             $entry->tags()->attach($tag_id);
         }
-        
+
         foreach($old_tags_collection->diff($new_tags_collection)->toArray() as $tag_id) {
             $entry->tags()->detach($tag_id);
         }

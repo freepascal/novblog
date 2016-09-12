@@ -1,14 +1,23 @@
 var EntryCollection = function($scope, $http, $controller, $rootScope, $warning) {
     angular.extend(this, $controller('AuthController', {$scope: $scope}));
     angular.extend(this, $controller('TagCollection', {$scope: $scope}));
-    $http({
-        url: 'api/entry',
-        method: 'GET',
-    }).then(function(res) {
-        $scope.entries = res.data.entries;
-    }, function(res) {
-        $warning(res);
-    });
+
+    $scope.page_current = 1;
+    $scope.paginate = function(page_index) {
+        $http({
+            url: 'api/entry?page=' + page_index,
+            method: 'GET'
+        }).then(function(res) {
+            $scope.entries = res.data.data;
+            $scope.page_last = res.data.last_page;
+            // save current page
+            $scope.page_current = page_index;
+        }, function(res) {
+            $warning(res);
+        });
+    };
+    // start paginating
+    $scope.paginate($scope.page_current);
 };
 
 var EntryShow = function($scope, $http, $controller, $warning, $stateParams, $state) {
@@ -16,11 +25,12 @@ var EntryShow = function($scope, $http, $controller, $warning, $stateParams, $st
     angular.extend(this, $controller('TagCollection', {$scope: $scope}));
 
     $http({
-        url: 'api/entry/' + $stateParams.slug,
+        url: sprintf('api/entry/%d/%s', $stateParams.id, $stateParams.slug? $stateParams.slug: ''),
         method: 'GET'
     }).then(function(res) {
         $scope.entry = res.data.entry;
         $scope.edit = function() {
+            // pass params to next state
             $state.go('entryEdit', { entry: $scope.entry });
         };
     }, function(res) {
@@ -62,6 +72,8 @@ var EntryEdit = function($scope, $http, $controller, $warning, $state, $statePar
     $scope.entry.tags = _.map($stateParams.entry.tags || [], function(item) {
         return item.tag;
     });
+
+    console.log('all tags: ' + angular.toJson($scope.tags));
 
     $scope.addTag = function(tag) {
         // tag found not allowed to push

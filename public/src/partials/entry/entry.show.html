@@ -16,15 +16,15 @@
                     <span compile="entry.body"></span><br>
                     <span class="pull-right">
                         Posted by <b>{{ entry.author.name }}</b>
-                        <span ng-if="entry.created_at">on <b>{{ entry.created_at }}</b></span>
+                        <span ng-if="entry.created_at">on {{ entry.created_at }}</span>
                         <!--
                         <span ng-if="{entry.create_at && (entry.create_at != entry.updated_at)}">, last modified on <b>{{ entry.updated_at }}</b></span>
                         -->
                     </span>
                 </div>
                 <div class="panel-footer" style="border:none;" ng-if="isAuthenticated()">
-                    <button type="button" class="btn btn-default" ng-click="edit()">Edit</button>
-                    <button type="button" class="btn btn-default" ng-click="delete(entry.id)">Delete</button>
+                    <button type="button" class="btn btn-default btn-sm" ng-click="edit()">Edit</button>
+                    <button type="button" class="btn btn-default btn-sm" ng-click="delete(entry.id)">Delete</button>
                 </div>
             </div>
         </div>

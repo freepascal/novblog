@@ -17,6 +17,20 @@ var objectListToString = ['$timeout', function($timeout) {
     return filter;
 }];
 
+var filterToPage = function() {
+    return function(input) {
+        var _array = _.range(1, input + 1);
+
+        // there is only one page so we don't paginate
+        // return [] instead
+        if (_array.length == 1)
+            return [];
+            
+        return _array;
+    };
+};
+
 angular
     .module('novblog')
+    .filter('lastPage', filterToPage)
     .filter('objectListToString', objectListToString);

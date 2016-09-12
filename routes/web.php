@@ -8,7 +8,10 @@ Route::group(array('prefix' => 'api'), function() {
     Route::post('auth/user', 'AuthController@user');
     Route::get('auth/verify/{registration_code}', 'AuthController@verifyEmail');
 
-    Route::resource('entry', 'EntryController', ['only' => ['index', 'show', 'store', 'destroy', 'update']]);
+    Route::resource('entry', 'EntryController', ['only' => ['index', 'store', 'destroy', 'update']]);
+    Route::get('entry/{id}/{slug?}', 'EntryController@show');
+    Route::get('entry/paginate/{page_index}/{page_size}', 'EntryController@paginate');
+
     Route::resource('tag', 'TagController', ['only' => ['index', 'show']]);
 });
 

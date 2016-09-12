@@ -18,6 +18,7 @@ class CreateTableEntries extends Migration
             $table->string('title');
             $table->text('body');
             $table->integer('author')->references('id')->on('users');
+            $table->string('slug')->nullable();
             $table->timestamps();
         });
     }
